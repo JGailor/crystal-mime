@@ -1,7 +1,6 @@
 require "json"
 
 module Mime
-
   def self.from_ext(ext)
     ext = ext.to_s
     return nil unless map[:types].has_key? ext
@@ -26,7 +25,9 @@ module Mime
         end
       end
 
-      { :types => types, :extensions => extensions }
+      {:types => types, :extensions => extensions}
+    rescue
+      {:types => {String => String}, :extensions => {String => String}}
     end
   end
 end
