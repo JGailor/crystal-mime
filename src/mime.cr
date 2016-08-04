@@ -16,15 +16,18 @@ module Mime
     return @@map if @@map
     @@map = {:types => {String => String}, :extensions => {String => String}}
 
-    types = {} of String => String
-    extensions = {} of String => String
-    type_defs = File.read(File.join(__DIR__, "types.json"))
+    begin
+      types = {} of String => String
+      extensions = {} of String => String
+      type_defs = File.read(File.join(__DIR__, "types.json"))
 
-    JSON.parse(type_defs).each do |type, exts|
-      exts.each do |ext|
-        types[ext.as_s] = type.as_s
-        extensions[type.as_s] = ext.as_s unless extensions.has_key? type.as_s
+      JSON.parse(type_defs).each do |type, exts|
+        exts.each do |ext|
+          types[ext.as_s] = type.as_s
+          extensions[type.as_s] = ext.as_s unless extensions.has_key? type.as_s
+        end
       end
+    rescue
     end
 
     @@map
